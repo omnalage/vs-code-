@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps with Custom Marker and User Interaction</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPQe3KmBmzYmlIK4qpU7i83wvuHwN3oVQ&callback=initMap" async defer></script>
+    <style>
+      /* Style for map */
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      let map;
+      let markers = [];
+
+      function initMap() {
+        // Initialize map centered at VNIT
+        const vnitLocation = { lat: 21.1215, lng: 79.0472 };
+        
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: vnitLocation,
+          zoom: 15
+        });
+
+        // Add a marker at VNIT with custom icon and a caption message
+        const marker = new google.maps.Marker({
+          position: vnitLocation,
+          map: map,
+          icon: 'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png', // Custom icon
+          title: "VNIT, Nagpur"
+        });
+
+        // Info window that opens when the marker is clicked
+        const infoWindow = new google.maps.InfoWindow({
+          content: "<h4>Welcome to VNIT!</h4><p>This is VNIT, Nagpur.</p>"
+        });
+
+        // Add a click listener to the marker to show the info window
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+
+        // Add marker dynamically when the user clicks on the map
+        google.maps.event.addListener(map, 'click', function(event) {
+          addMarker(event.latLng);
+        });
+      }
+
+      // Function to dynamically add marker at clicked position
+      function addMarker(location) {
+        const newMarker = new google.maps.Marker({
+          position: location,
+          map: map,
+          title: "New Marker"
+        });
+
+        markers.push(newMarker);
+
+        // Add a message to the newly added marker
+        const infoWindow = new google.maps.InfoWindow({
+          content: "<h4>You added a marker here!</h4><p>Coordinates: " + location.lat() + ", " + location.lng() + "</p>"
+        });
+
+        // Open info window on click for the new marker
+        newMarker.addListener("click", () => {
+          infoWindow.open(map, newMarker);
+        });
+      }
+    </script>
+  </body>
+</html>

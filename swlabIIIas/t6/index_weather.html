@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapTiler Weather API Example</title>
+    <script>
+        async function getWeather() {
+            const location = document.getElementById('location').value;
+            const response = await fetch(`/weather?location=${location}`);
+            const data = await response.json();
+            document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</head>
+<body>
+    <h1>MapTiler Weather API Example</h1>
+
+    <div>
+        <label for="location">Location:</label>
+        <input type="text" id="location" value="finland">
+        <button onclick="getWeather()">Get Weather</button>
+    </div>
+
+    <h3>Weather Data:</h3>
+    <pre id="result"></pre>
+</body>
+</html>

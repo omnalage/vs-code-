@@ -153,7 +153,7 @@ int main() {
     // Cancel producer threads (optional)
     for (int i = 0; i < PRODUCERS; ++i) {
         pthread_cancel(producer_threads[i]);
-    }˜
+    }
     // Free allocated memory
     free(B);
     free(C);

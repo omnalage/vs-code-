@@ -1,0 +1,27 @@
+services:
+  flask-backend:
+    build:
+      context: ./backend  # This points to the backend directory
+    container_name: flask-backend
+    networks:
+      - flask-nginx-network
+    expose:
+      - "5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+
+  nginx-frontend:
+    build:
+      context: ./frontend  # This points to the frontend directory
+    container_name: nginx-frontend
+    networks:
+      - flask-nginx-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - flask-backend
+
+networks:
+  flask-nginx-network:
+    driver: bridge
